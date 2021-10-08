@@ -1,0 +1,120 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std; 
+
+class node{
+    public:
+    int data;
+    node* next;
+
+    node(int value){
+        data=value;
+        next=NULL;
+    }
+};
+
+void insertion_at_tail(node* &head, int value){
+    node* n=new node(value);
+    
+    if(head==NULL){head=n;return;}
+
+    node*i=head;
+    while(i->next!=NULL){i=i->next;}
+
+    i->next=n;
+}
+
+void insertion_at_specific_index(node* &head, int value ,int index){
+    node*n=new node(value);
+    int postion=1;
+    
+    if(index==0){
+        n->next=head;
+        head=n;
+        return;
+    }
+
+    node*i=head;
+    while(i!=NULL){
+        if(postion==index){
+            break;
+        }
+        i=i->next;
+        postion++;   
+    }
+    node*temp=i->next;
+    i->next=n;
+    n->next=temp;
+    
+}
+
+void display(node* &head){
+    node*i=head;
+    while(i!=NULL){
+        cout<<i->data<<" ";
+        i=i->next;
+    }
+}
+
+int count_nodes(node* &head){
+    node*i=head;
+    int ans=0;
+    while(i!=NULL){i=i->next;ans++;}
+    return ans;
+}
+
+void deletion(node* &head, int value){
+
+    if (head->data==value){
+        node*temp=head->next;
+        node*x=head;
+        head=temp;
+        delete(x);
+        return;
+    }
+
+    if (head==NULL){cout<<"Already empty \n";return ;}
+
+
+    if (head->next==NULL){
+        head==NULL;  
+        return;  
+    }
+
+    node*i=head;
+    while(i->next->data!=value){i=i->next;}
+
+    node*temp=i->next->next;
+    node*faaltu=i->next;
+    i->next=temp;
+    delete(faaltu);
+
+}
+
+int main(){
+    node*head=NULL;
+    insertion_at_tail(head,1);
+    insertion_at_tail(head,2);
+    insertion_at_tail(head,3);
+    
+    display(head);
+    cout<<endl<<endl;
+
+    insertion_at_specific_index(head,7,2);
+    insertion_at_specific_index(head,5,0);
+
+    display(head);
+    cout<<endl<<endl;
+
+    int total_nodes=count_nodes(head);
+    cout<<total_nodes<<endl<<endl;
+
+    deletion(head,2);
+    deletion(head,5);
+
+    display(head);
+    cout<<endl<<endl;
+
+    return 0;
+}
